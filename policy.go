@@ -26,7 +26,7 @@ type PolicyParams struct {
 	RichRules    []string
 }
 
-func (fw *FirewalldClient) AddPolicyPermanent(conn *dbus.Conn, policyName string, params PolicyParams) error {
+func (fw *FirewalldClient) AddPolicyPermanent(policyName string, params PolicyParams) error {
 	obj := fw.conn.Object("org.fedoraproject.FirewallD1", "/org/fedoraproject/FirewallD1/config")
 
 	// Convert struct to a map
@@ -42,7 +42,7 @@ func (fw *FirewalldClient) AddPolicyPermanent(conn *dbus.Conn, policyName string
 	return call.Err
 }
 
-func (fw *FirewalldClient) GetPolicyPathPermanent(conn *dbus.Conn, policyName string) (string, error) {
+func (fw *FirewalldClient) GetPolicyPathPermanent(policyName string) (string, error) {
 	obj := fw.conn.Object("org.fedoraproject.FirewallD1", "/org/fedoraproject/FirewallD1/config")
 
 	var policyPath string
@@ -54,7 +54,7 @@ func (fw *FirewalldClient) GetPolicyPathPermanent(conn *dbus.Conn, policyName st
 	return policyPath, nil
 }
 
-func (fw *FirewalldClient) GetPolicySettingsPermanent(conn *dbus.Conn, policyPath string) (map[string]interface{}, error) {
+func (fw *FirewalldClient) GetPolicySettingsPermanent(policyPath string) (map[string]interface{}, error) {
 	obj := fw.conn.Object("org.fedoraproject.FirewallD1", dbus.ObjectPath(policyPath))
 
 	var settings map[string]interface{}
@@ -66,8 +66,8 @@ func (fw *FirewalldClient) GetPolicySettingsPermanent(conn *dbus.Conn, policyPat
 	return settings, nil
 }
 
-func (fw *FirewalldClient) UpdatePolicyPermanent(conn *dbus.Conn, policyPath string, params PolicyParams) error {
-	obj := conn.Object("org.fedoraproject.FirewallD1", dbus.ObjectPath(policyPath))
+func (fw *FirewalldClient) UpdatePolicyPermanent(policyPath string, params PolicyParams) error {
+	obj := fw.conn.Object("org.fedoraproject.FirewallD1", dbus.ObjectPath(policyPath))
 
 	// Convert struct to a map
 	policyParams := make(map[string]interface{})
