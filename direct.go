@@ -29,3 +29,9 @@ func (fw *FirewalldClient) DirectAddRulePermanent(ipv, table, chain string, prio
 	call := obj.Call("org.fedoraproject.FirewallD1.config.direct.addRule", 0, ipv, table, chain, priority, strings.Split(rules, " "))
 	return call.Err
 }
+
+func (fw *FirewalldClient) DirectRemoveRulesPermanent(ipv, table, chain string) error {
+	obj := fw.conn.Object("org.fedoraproject.FirewallD1", "/org/fedoraproject/FirewallD1/config")
+	call := obj.Call("org.fedoraproject.FirewallD1.config.direct.removeRules", 0, ipv, table, chain)
+	return call.Err
+}
