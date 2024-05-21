@@ -47,11 +47,7 @@ func (fw *FirewalldClient) GetPolicyPathPermanent(policyName string) (string, er
 
 	var policyPath string
 	err := obj.Call("org.fedoraproject.FirewallD1.config.getPolicyByName", 0, policyName).Store(&policyPath)
-	if err != nil {
-		return "", err
-	}
-
-	return policyPath, nil
+	return policyPath, err
 }
 
 func (fw *FirewalldClient) GetPolicySettingsPermanent(policyPath string) (map[string]interface{}, error) {
@@ -59,11 +55,7 @@ func (fw *FirewalldClient) GetPolicySettingsPermanent(policyPath string) (map[st
 
 	var settings map[string]interface{}
 	err := obj.Call("org.fedoraproject.FirewallD1.config.policy.getSettings", 0).Store(&settings)
-	if err != nil {
-		return nil, err
-	}
-
-	return settings, nil
+	return settings, err
 }
 
 func (fw *FirewalldClient) UpdatePolicyPermanent(policyPath string, params PolicyParams) error {
