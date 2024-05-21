@@ -15,16 +15,9 @@
 
 package firewalld
 
-import "github.com/godbus/dbus/v5"
+func (fw *FirewalldClient) Reload() error {
+	obj := fw.conn.Object("org.fedoraproject.FirewallD1", "/org/fedoraproject/FirewallD1")
 
-type FirewalldClient struct {
-	conn *dbus.Conn
-}
-
-func NewFirewalldClient() (*FirewalldClient, error) {
-	sbus, err := dbus.SystemBus()
-	if err != nil {
-		return nil, err
-	}
-	return &FirewalldClient{conn: sbus}, nil
+	call := obj.Call("org.fedoraproject.FirewallD1.reload", 0)
+	return call.Err
 }
