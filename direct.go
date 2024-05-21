@@ -35,3 +35,11 @@ func (fw *FirewalldClient) DirectRemoveRulesPermanent(ipv, table, chain string) 
 	call := obj.Call("org.fedoraproject.FirewallD1.config.direct.removeRules", 0, ipv, table, chain)
 	return call.Err
 }
+
+// Check whether if the specified chain exists
+func (fw *FirewalldClient) DirectQueryChainPermanent(ipv, table, chain string) (bool, error) {
+        var exists bool
+        obj := fw.conn.Object("org.fedoraproject.FirewallD1", "/org/fedoraproject/FirewallD1/config")
+        err := obj.Call("org.fedoraproject.FirewallD1.config.direct.queryChain", 0, ipv, table, chain).Store(&exists)
+        return exists, err
+}
